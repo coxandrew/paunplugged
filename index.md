@@ -136,7 +136,7 @@ title: Home
   {% assign families_by_name = committed_families | group_by: "Parent/Guardian Name" %}
 
   <h1>Unplugged Families</h1>
-  <h2>{{ families_by_name.size }} Pennsylvania families have committed to delay smart phones and social media</h2>
+  <h2>{{ families_by_name.size }} families with {{ site.data.supporters | size | minus: 1 }} children have joined the movement in Pennsylvania</h2>
 
   <section class="grade-group">
       <div class="grade-filter">
@@ -374,3 +374,77 @@ function addChild() {
     <option value="">Select Graduation Year</option>
     ${years.map(year => `<option value="${year}">${year}</option>`).join('')}
   `
+
+  // Create county select
+  const countySelect = document.createElement('select');
+  countySelect.className = 'form-select county-select';
+  countySelect.id = `county${childNumber}`;
+  countySelect.name = 'county[]';
+  countySelect.required = true;
+  countySelect.onchange = function() { updateDistricts(this); };
+
+  // Add county options
+  countySelect.innerHTML = `
+    <option value="">Select County</option>
+    <option value="Allegheny">Allegheny County</option>
+    <option value="Beaver">Beaver County</option>
+    <option value="Delaware">Delaware County</option>
+  `;
+
+  // Create district select
+  const districtSelect = document.createElement('select');
+  districtSelect.className = 'form-select district-select';
+  districtSelect.id = `district${childNumber}`;
+  districtSelect.name = 'district[]';
+  districtSelect.required = true;
+  districtSelect.disabled = true;
+  districtSelect.innerHTML = '<option value="">Select District</option>';
+
+  // Create form groups
+  const yearGroup = document.createElement('div');
+  yearGroup.className = 'form-group';
+  yearGroup.innerHTML = '<label for="graduationYear' + childNumber + '">Graduation Year</label>';
+  yearGroup.appendChild(yearSelect);
+
+  const countyGroup = document.createElement('div');
+  countyGroup.className = 'form-group';
+  countyGroup.innerHTML = '<label for="county' + childNumber + '">County</label>';
+  countyGroup.appendChild(countySelect);
+
+  const districtGroup = document.createElement('div');
+  districtGroup.className = 'form-group';
+  districtGroup.innerHTML = '<label for="district' + childNumber + '">School District</label>';
+  districtGroup.appendChild(districtSelect);
+
+  // Assemble the child entry
+  childEntry.appendChild(headerDiv);
+  childEntry.appendChild(yearGroup);
+  childEntry.appendChild(countyGroup);
+  childEntry.appendChild(districtGroup);
+
+  // Add to container
+  container.appendChild(childEntry);
+}
+
+function submitForm(event) {
+  event.preventDefault();
+
+  const formData = new FormData(event.target);
+  const data = Object.fromEntries(formData.entries());
+
+  // Here you would typically send the data to your server
+  console.log('Form submitted:', data);
+
+  // Show success toast
+  showToast();
+
+  // Reset form
+  event.target.reset();
+
+  // Reset district selects
+  document.querySelectorAll('.district-select').forEach(select => {
+    select.innerHTML = '<option value="">Select District</option>';
+    select.disabled = true;
+  });
+}
+</script>
