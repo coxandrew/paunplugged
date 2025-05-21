@@ -168,23 +168,76 @@ title: Home
   <h2>{{ families_by_name.size }} families with {{ site.data.supporters | size | minus: 1 }} children have joined the movement in Pennsylvania</h2>
 
   <section class="grade-group">
-      <div class="grade-filter">
-          <select id="grade-filter" class="form-select" onchange="filterFamilies()">
-              <option value="all">Show All Families</option>
-              <option value="grade-kindergarten">Kindergarten</option>
-              <option value="grade-1st">1st Grade</option>
-              <option value="grade-2nd">2nd Grade</option>
-              <option value="grade-3rd">3rd Grade</option>
-              <option value="grade-4th">4th Grade</option>
-              <option value="grade-5th">5th Grade</option>
-              <option value="grade-6th">6th Grade</option>
-              <option value="grade-7th">7th Grade</option>
-              <option value="grade-8th">8th Grade</option>
-              <option value="grade-9th">9th Grade</option>
-              <option value="grade-10th">10th Grade</option>
-              <option value="grade-11th">11th Grade</option>
-              <option value="grade-12th">12th Grade</option>
-          </select>
+      <div class="filter-container">
+          <div class="district-filter">
+              <select id="district-filter" class="form-select" onchange="filterFamilies()">
+                  <option value="all">Show All Districts</option>
+                  <optgroup label="Allegheny County">
+                      <option value="Bethel Park">Bethel Park</option>
+                      <option value="Central Catholic">Central Catholic</option>
+                      <option value="Eden Christian">Eden Christian</option>
+                      <option value="Faulk Laboratory">Faulk Laboratory</option>
+                      <option value="Fox Chapel">Fox Chapel</option>
+                      <option value="Keystone Oaks">Keystone Oaks</option>
+                      <option value="Montessori">Montessori</option>
+                      <option value="Mt. Lebanon">Mt. Lebanon</option>
+                      <option value="New Brighton">New Brighton</option>
+                      <option value="North Allegheny">North Allegheny</option>
+                      <option value="Oakland Catholic">Oakland Catholic</option>
+                      <option value="Pine Richland">Pine Richland</option>
+                      <option value="Pittsburgh Public">Pittsburgh Public</option>
+                      <option value="Quaker Valley">Quaker Valley</option>
+                      <option value="Saint James">Saint James</option>
+                      <option value="Seneca Valley">Seneca Valley</option>
+                      <option value="Sewickley Academy">Sewickley Academy</option>
+                      <option value="Shady Side Academy">Shady Side Academy</option>
+                      <option value="The Ellis School">The Ellis School</option>
+                      <option value="Upper Saint Clair">Upper Saint Clair</option>
+                      <option value="Watermark">Watermark</option>
+                  </optgroup>
+                  <optgroup label="Beaver County">
+                      <option value="Beaver Area">Beaver Area</option>
+                      <option value="Beaver Falls">Beaver Falls</option>
+                      <option value="Blackhawk">Blackhawk</option>
+                      <option value="New Brighton">New Brighton</option>
+                  </optgroup>
+                  <optgroup label="Delaware County">
+                      <option value="Chester Upland">Chester Upland</option>
+                      <option value="Chichester">Chichester</option>
+                      <option value="Garnet Valley">Garnet Valley</option>
+                      <option value="Haverford Township">Haverford Township</option>
+                      <option value="Interboro">Interboro</option>
+                      <option value="Marple Newtown">Marple Newtown</option>
+                      <option value="Penn-Delco">Penn-Delco</option>
+                      <option value="Radnor">Radnor</option>
+                      <option value="Ridley">Ridley</option>
+                      <option value="Rose Tree Media">Rose Tree Media</option>
+                      <option value="Southeast Delco">Southeast Delco</option>
+                      <option value="Springfield">Springfield</option>
+                      <option value="Upper Darby">Upper Darby</option>
+                      <option value="Wallingford-Swarthmore">Wallingford-Swarthmore</option>
+                      <option value="William Penn">William Penn</option>
+                  </optgroup>
+              </select>
+          </div>
+          <div class="grade-filter">
+              <select id="grade-filter" class="form-select" onchange="filterFamilies()">
+                  <option value="all">Show All Grades</option>
+                  <option value="grade-kindergarten">Kindergarten</option>
+                  <option value="grade-1st">1st Grade</option>
+                  <option value="grade-2nd">2nd Grade</option>
+                  <option value="grade-3rd">3rd Grade</option>
+                  <option value="grade-4th">4th Grade</option>
+                  <option value="grade-5th">5th Grade</option>
+                  <option value="grade-6th">6th Grade</option>
+                  <option value="grade-7th">7th Grade</option>
+                  <option value="grade-8th">8th Grade</option>
+                  <option value="grade-9th">9th Grade</option>
+                  <option value="grade-10th">10th Grade</option>
+                  <option value="grade-11th">11th Grade</option>
+                  <option value="grade-12th">12th Grade</option>
+              </select>
+          </div>
       </div>
   </section>
 
@@ -306,20 +359,48 @@ title: Home
   {% endfor %}
 </div>
 
+<style>
+.filter-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.grade-filter, .district-filter {
+    flex: 1;
+}
+
+.district-filter select {
+    width: 100%;
+}
+
+.optgroup {
+    font-weight: bold;
+    color: #666;
+}
+
+.optgroup option {
+    font-weight: normal;
+    color: #333;
+    padding-left: 1rem;
+}
+</style>
+
 <script>
   function filterFamilies() {
-    var filter = document.getElementById("grade-filter").value;
+    var gradeFilter = document.getElementById("grade-filter").value;
+    var districtFilter = document.getElementById("district-filter").value;
     var families = document.getElementsByClassName("family");
 
     for (var i = 0; i < families.length; i++) {
-        if (filter === "all") {
-            families[i].style.display = "block";
+        var family = families[i];
+        var showByGrade = gradeFilter === "all" || family.classList.contains(gradeFilter);
+        var showByDistrict = districtFilter === "all" || family.querySelector('.students').textContent.includes(districtFilter);
+
+        if (showByGrade && showByDistrict) {
+            family.style.display = "block";
         } else {
-            if (families[i].classList.contains(filter)) {
-                families[i].style.display = "block";
-            } else {
-                families[i].style.display = "none";
-            }
+            family.style.display = "none";
         }
     }
 }
