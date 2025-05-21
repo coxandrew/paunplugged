@@ -90,10 +90,17 @@ header.masthead.page {
 
     label {
       display: block;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.3rem;
       font-weight: 500;
       color: #495057;
-      font-size: 0.875rem;
+      font-size: 1.1rem;
+    }
+
+    .form-text {
+      font-size: 0.85rem;
+      font-style: italic;
+      margin-bottom: 0.5rem;
+      color: #6c757d;
     }
 
     // Add extra margin for radio groups
@@ -118,9 +125,10 @@ header.masthead.page {
     margin-right: 0.5rem;
   }
 
-  .form-check-label {
+  .form-group .form-check .form-check-label {
     font-weight: normal;
-    font-size: 0.875rem;
+    font-size: 0.9rem;
+    color: #495057;
   }
 
   .children-section {

@@ -35,6 +35,7 @@ title: Home
   <form id="emailForm" onsubmit="submitForm(event)">
     <div class="form-group">
       <label for="parentName">Parent/Guardian Name(s)</label>
+      <small class="form-text text-muted">This is how your name(s) will appear on https://paunplugged.org (examples: "Jenn and Matt Jones" or "Simpson Family").</small>
       <input type="text" id="parentName" name="parentName" class="form-control" placeholder="Enter your name(s)" required>
     </div>
 
@@ -93,6 +94,15 @@ title: Home
               <option value="2034">2034</option>
               <option value="2035">2035</option>
               <option value="2036">2036</option>
+              <option value="2037">2037</option>
+              <option value="2038">2038</option>
+              <option value="2039">2039</option>
+              <option value="2040">2040</option>
+              <option value="2041">2041</option>
+              <option value="2042">2042</option>
+              <option value="2043">2043</option>
+              <option value="2044">2044</option>
+              <option value="2045">2045</option>
             </select>
           </div>
           <div class="form-group">
@@ -113,6 +123,25 @@ title: Home
         </div>
       </div>
       <button type="button" class="btn btn-secondary" onclick="addChild()">Add Another Child</button>
+    </div>
+
+    <div class="form-group">
+      <label for="comments">Additional Comments or Questions</label>
+      <textarea class="form-control" id="comments" name="comments" rows="3" placeholder="Share any additional thoughts or questions you may have"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Would you like to be added to a community email list for updates and support?</label>
+      <div class="radio-group">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="emailList" id="emailListYes" value="yes" required>
+          <label class="form-check-label" for="emailListYes">Yes</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="emailList" id="emailListNo" value="no" required>
+          <label class="form-check-label" for="emailListNo">No</label>
+        </div>
+      </div>
     </div>
 
     <button type="submit" class="btn btn-primary">Sign Up</button>
@@ -353,6 +382,17 @@ function addChild() {
   // Get the next child number
   const childNumber = container.children.length + 1;
 
+  // Get the previous child's county and district if it exists
+  let previousCounty = '';
+  let previousDistrict = '';
+  if (childNumber > 1) {
+    const previousChildEntry = container.children[childNumber - 2];
+    const previousCountySelect = previousChildEntry.querySelector('.county-select');
+    const previousDistrictSelect = previousChildEntry.querySelector('.district-select');
+    previousCounty = previousCountySelect.value;
+    previousDistrict = previousDistrictSelect.value;
+  }
+
   // Create child header with remove link
   const headerDiv = document.createElement('div');
   headerDiv.className = 'child-header';
@@ -369,7 +409,7 @@ function addChild() {
   yearSelect.required = true;
 
   // Add the options
-  const years = Array.from({length: 13}, (_, i) => 2025 + i);
+  const years = Array.from({length: 21}, (_, i) => 2025 + i);
   yearSelect.innerHTML = `
     <option value="">Select Graduation Year</option>
     ${years.map(year => `<option value="${year}">${year}</option>`).join('')}
@@ -386,9 +426,9 @@ function addChild() {
   // Add county options
   countySelect.innerHTML = `
     <option value="">Select County</option>
-    <option value="Allegheny">Allegheny County</option>
-    <option value="Beaver">Beaver County</option>
-    <option value="Delaware">Delaware County</option>
+    <option value="Allegheny" ${previousCounty === 'Allegheny' ? 'selected' : ''}>Allegheny County</option>
+    <option value="Beaver" ${previousCounty === 'Beaver' ? 'selected' : ''}>Beaver County</option>
+    <option value="Delaware" ${previousCounty === 'Delaware' ? 'selected' : ''}>Delaware County</option>
   `;
 
   // Create district select
@@ -397,8 +437,19 @@ function addChild() {
   districtSelect.id = `district${childNumber}`;
   districtSelect.name = 'district[]';
   districtSelect.required = true;
-  districtSelect.disabled = true;
+  districtSelect.disabled = !previousCounty;
   districtSelect.innerHTML = '<option value="">Select District</option>';
+
+  // If there was a previous county, populate and select the district
+  if (previousCounty) {
+    districtsByCounty[previousCounty].forEach(district => {
+      const option = document.createElement('option');
+      option.value = district;
+      option.textContent = district;
+      option.selected = district === previousDistrict;
+      districtSelect.appendChild(option);
+    });
+  }
 
   // Create form groups
   const yearGroup = document.createElement('div');
@@ -432,19 +483,67 @@ function submitForm(event) {
   const formData = new FormData(event.target);
   const data = Object.fromEntries(formData.entries());
 
-  // Here you would typically send the data to your server
-  console.log('Form submitted:', data);
+  // Show loading state
+  const submitButton = event.target.querySelector('button[type="submit"]');
+  submitButton.disabled = true;
+  submitButton.innerHTML = 'Submitting...';
 
-  // Show success toast
-  showToast();
+  // Format children data
+  const children = [];
+  const graduationYears = Array.isArray(data['graduationYear[]']) ? data['graduationYear[]'] : [data['graduationYear[]']];
+  const counties = Array.isArray(data['county[]']) ? data['county[]'] : [data['county[]']];
+  const districts = Array.isArray(data['district[]']) ? data['district[]'] : [data['district[]']];
 
-  // Reset form
-  event.target.reset();
+  for (let i = 0; i < graduationYears.length; i++) {
+    children.push({
+      graduationYear: graduationYears[i],
+      county: counties[i],
+      district: districts[i]
+    });
+  }
 
-  // Reset district selects
-  document.querySelectorAll('.district-select').forEach(select => {
-    select.innerHTML = '<option value="">Select District</option>';
-    select.disabled = true;
+  // Prepare data for submission
+  const submitData = {
+    parentName: data.parentName,
+    email: data.email,
+    publicName: data.publicName,
+    commitment: data.commitment,
+    timestamp: new Date().toISOString(),
+    comments: data.comments || '',
+    emailList: data.emailList || '',
+    children: JSON.stringify(children)
+  };
+
+  // Send data to Google Apps Script
+  fetch('https://script.google.com/macros/s/AKfycby2Rn6ZAkbqq-2peknv2TwpeTU5wflBWRFqzSvc_LvRc1wD-rkGuyaBIh43p44fgWUp/exec', {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams(submitData).toString()
+  })
+  .then(() => {
+    // Show success toast
+    showToast();
+
+    // Reset form
+    event.target.reset();
+
+    // Reset district selects
+    document.querySelectorAll('.district-select').forEach(select => {
+      select.innerHTML = '<option value="">Select District</option>';
+      select.disabled = true;
+    });
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('There was an error submitting the form. Please try again.');
+  })
+  .finally(() => {
+    // Reset button state
+    submitButton.disabled = false;
+    submitButton.innerHTML = 'Sign Up';
   });
 }
 </script>
