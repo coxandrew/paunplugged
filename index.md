@@ -26,7 +26,7 @@ title: Home
 This commitment is a tool for connection, not comparison or judgement. We believe when families make this decision together, it becomes more sustainable and less isolating.
 
 * We commit to waiting until at least 9th grade to give our child(ren) a smart phone. Prior to high school, we will explore ["talk and text"](https://dumbwireless.com/) only devices for communication needs.
-* Delay social media until we feel it will be a positive addition to our children’s lives.
+* Delay social media until we feel it will be a positive addition to our children's lives.
 * We support PA legislation for bell-to-bell phone-free school policies.
 * As parents & guardians, we will try to model positive technology behaviors in and outside of the home.
 * As stakeholders in our community, we support free-roam childhoods and encourage screen-free experiences in our communities.
@@ -98,6 +98,7 @@ This commitment is a tool for connection, not comparison or judgement. We believ
               <option value="Allegheny">Allegheny County</option>
               <option value="Beaver">Beaver County</option>
               <option value="Delaware">Delaware County</option>
+              <option value="Montgomery">Montgomery County</option>
             </select>
           </div>
           <div class="form-group">
@@ -138,7 +139,7 @@ This commitment is a tool for connection, not comparison or judgement. We believ
 
 ## Find Your People!
 
-PA Unplugged is made up of a variety of grassroots, parent-led organizations across the state. These growing movements have joined together to create PA Unplugged. Find your local effort. Don’t see your school district or community? [Contact us](mailto:pittsburghchapter.mama@gmail.com) to add it!
+PA Unplugged is made up of a variety of grassroots, parent-led organizations across the state. These growing movements have joined together to create PA Unplugged. Find your local effort. Don't see your school district or community? [Contact us](mailto:pittsburghchapter.mama@gmail.com) to add it!
 
 <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
   <div class="toast-header">
@@ -209,6 +210,10 @@ PA Unplugged is made up of a variety of grassroots, parent-led organizations acr
                       <option value="Upper Darby">Upper Darby</option>
                       <option value="Wallingford-Swarthmore">Wallingford-Swarthmore</option>
                       <option value="William Penn">William Penn</option>
+                  </optgroup>
+                  <optgroup label="Montgomery County">
+                      <option value="Jenkintown">Jenkintown</option>
+                      <option value="Wissahickon">Wissahickon</option>
                   </optgroup>
               </select>
           </div>
@@ -445,6 +450,9 @@ const districtsByCounty = {
     'Interboro', 'Marple Newtown', 'Penn-Delco', 'Radnor', 'Ridley',
     'Rose Tree Media', 'Southeast Delco', 'Springfield', 'Upper Darby',
     'Wallingford-Swarthmore', 'William Penn'
+  ],
+  'Montgomery': [
+    'Jenkintown', 'Wissahickon'
   ]
 };
 
