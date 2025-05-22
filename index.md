@@ -229,6 +229,20 @@ title: Home
 
   {% assign sorted_families = families_by_name | sort: "name" %}
   {% assign anonymous_count = 0 %}
+  {% assign anonymous_map = "" | split: "" %}
+
+  {% comment %}First pass to create anonymous family mapping{% endcomment %}
+  {% for family in sorted_families %}
+    {% assign first_item = family.items[0] %}
+    {% if first_item["Public Name Preference"] == "no" %}
+      {% assign anonymous_count = anonymous_count | plus: 1 %}
+      {% assign anonymous_map = anonymous_map | push: anonymous_count %}
+    {% else %}
+      {% assign anonymous_map = anonymous_map | push: 0 %}
+    {% endif %}
+  {% endfor %}
+
+  {% comment %}Second pass to display families{% endcomment %}
   {% for family in sorted_families %}
     {% assign class_names = "family" %}
     {% assign children = family.items | sort: "Graduation Year" %}
@@ -275,9 +289,10 @@ title: Home
 
     <div class="{{ class_names }}">
       <div class="parents">
-        {% if family.name == "No, I'd like to be anonymous" %}
-          {% assign anonymous_count = anonymous_count | plus: 1 %}
-          Anonymous Family {{ anonymous_count }}
+        {% assign first_item = family.items[0] %}
+        {% if first_item["Public Name Preference"] == "no" %}
+          {% assign anonymous_index = forloop.index0 %}
+          Anonymous Family {{ anonymous_map[anonymous_index] }}
         {% else %}
           {{ family.name }}
         {% endif %}
@@ -587,7 +602,7 @@ function submitForm(event) {
   };
 
   // Send data to Google Apps Script
-  fetch('https://script.google.com/macros/s/AKfycby2Rn6ZAkbqq-2peknv2TwpeTU5wflBWRFqzSvc_LvRc1wD-rkGuyaBIh43p44fgWUp/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbzSpuDW7gXiVua-UqyKzt9721osxMUZrtXS9eRr7lF4CeQeWQkvqKbRKf87h2_3fJc_/exec', {
     method: 'POST',
     mode: 'no-cors',
     headers: {
