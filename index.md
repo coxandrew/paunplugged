@@ -23,13 +23,13 @@ title: Home
 
 # The PA Unplugged Commitment
 
-> As a family, we commit to waiting until at least 9th grade to give our child(ren) a smart phone and delay access to social media until we feel it will be a positive addition to their lives. Prior to high school, we will explore ["talk and text"](https://dumbwireless.com/) only devices for communication needs.
->
-> We support school policies that prohibit personal electronic devices throughout the school day.
->
-> As parents, we will model positive technology behaviors in and outside of the home.
->
-> As stakeholders in our community, we support free-roam childhoods and screen-free experiences. Businesses will offer access to phones and camps, clubs, and activities are encouraged to keep devices away.
+This commitment is a tool for connection, not comparison or judgement. We believe when families make this decision together, it becomes more sustainable and less isolating.
+
+* We commit to waiting until at least 9th grade to give our child(ren) a smart phone. Prior to high school, we will explore ["talk and text"](https://dumbwireless.com/) only devices for communication needs.
+* Delay social media until we feel it will be a positive addition to our children’s lives.
+* We support PA legislation for bell-to-bell phone-free school policies.
+* As parents & guardians, we will try to model positive technology behaviors in and outside of the home.
+* As stakeholders in our community, we support free-roam childhoods and encourage screen-free experiences in our communities.
 
 <div class="signup-form">
   <form id="emailForm" onsubmit="submitForm(event)">
@@ -133,6 +133,12 @@ title: Home
     <button type="submit" class="btn btn-primary">Sign Up</button>
   </form>
 </div>
+
+----
+
+## Find Your People!
+
+PA Unplugged is made up of a variety of grassroots, parent-led organizations across the state. These growing movements have joined together to create PA Unplugged. Find your local effort. Don’t see your school district or community? [Contact us](mailto:pittsburghchapter.mama@gmail.com) to add it!
 
 <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
   <div class="toast-header">
