@@ -21,7 +21,7 @@ title: Home
   </div>
 </div>
 
-# Join Our Movement
+# The PA Unplugged Commitment
 
 > As a family, we commit to waiting until at least 9th grade to give our child(ren) a smart phone and delay access to social media until we feel it will be a positive addition to their lives. Prior to high school, we will explore ["talk and text"](https://dumbwireless.com/) only devices for communication needs.
 >
@@ -54,20 +54,6 @@ title: Home
         <div class="form-check">
           <input class="form-check-input" type="radio" name="publicName" id="publicNameNo" value="no" required>
           <label class="form-check-label" for="publicNameNo">No, I'd like to be anonymous</label>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label>Commitment Agreement</label>
-      <div class="radio-group">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="commitment" id="commitmentYes" value="committed" required>
-          <label class="form-check-label" for="commitmentYes">I commit to delaying the purchase of a smartphone and the usage of social media for my child(ren)</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="commitment" id="commitmentNo" value="considering" required>
-          <label class="form-check-label" for="commitmentNo">I am considering this commitment and would like more information</label>
         </div>
       </div>
     </div>
@@ -161,7 +147,7 @@ title: Home
 <hr>
 
 <div class="unplugged-families">
-  {% assign committed_families = site.data.supporters | where_exp: "supporter", "supporter['Commitment Status'] contains 'committed'" %}
+  {% assign committed_families = site.data.supporters %}
   {% assign families_by_name = committed_families | group_by: "Parent/Guardian Name" %}
 
   <h1>Unplugged Families</h1>
@@ -242,6 +228,7 @@ title: Home
   </section>
 
   {% assign sorted_families = families_by_name | sort: "name" %}
+  {% assign anonymous_count = 0 %}
   {% for family in sorted_families %}
     {% assign class_names = "family" %}
     {% assign children = family.items | sort: "Graduation Year" %}
@@ -288,7 +275,12 @@ title: Home
 
     <div class="{{ class_names }}">
       <div class="parents">
-        {{ family.name }}
+        {% if family.name == "No, I'd like to be anonymous" %}
+          {% assign anonymous_count = anonymous_count | plus: 1 %}
+          Anonymous Family {{ anonymous_count }}
+        {% else %}
+          {{ family.name }}
+        {% endif %}
       </div>
       <div class="students">
         {% assign child_count = children.size %}
@@ -588,7 +580,6 @@ function submitForm(event) {
     parentName: data.parentName,
     email: data.email,
     publicName: data.publicName,
-    commitment: data.commitment,
     timestamp: new Date().toISOString(),
     comments: data.comments || '',
     emailList: data.emailList || '',
