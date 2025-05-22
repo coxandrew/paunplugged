@@ -139,7 +139,7 @@ This commitment is a tool for connection, not comparison or judgement. We believ
 
 ## Find Your People!
 
-PA Unplugged is made up of a variety of grassroots, parent-led organizations across the state. These growing movements have joined together to create PA Unplugged. Find your local effort. Don't see your school district or community? [Contact us](mailto:pittsburghchapter.mama@gmail.com) to add it!
+PA Unplugged is made up of a variety of grassroots, parent-led organizations across the state. These growing movements have joined together to create PA Unplugged. Don't see your school district or community? [Contact us](mailto:pennsylvaniaunplugged@gmail.com) to add it!
 
 <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
   <div class="toast-header">
