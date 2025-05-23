@@ -232,6 +232,14 @@ header.masthead.page {
     }
   }
 }
+.privacy-policy {
+  font-size: 14px;
+
+  p {
+    margin: 15px 0;
+    color: #6c757d;
+  }
+}
 @media only screen and (min-width: 576px) {
   header.masthead.page {
     // background-position: 0 -100px;

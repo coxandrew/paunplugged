@@ -377,6 +377,19 @@ PA Unplugged is made up of a variety of grassroots, parent-led organizations acr
   {% endfor %}
 </div>
 
+
+<div class="privacy-policy">
+  <h4>Privacy Policy</h4>
+
+  <p>
+    This privacy notice discloses the privacy practices for PA Unplugged. The privacy and security of your personal data is a priority for our organization. We seek to honor your privacy choices and secure your personal data by maintaining electronic controls and safeguards designed to limit access and protect your personal data. When you enter the information on the pledge form, it is stored in our pledge data management system through an administrator run Google form. Your information will only be used and shared based on your choices.
+  </p>
+
+  <p>
+    PA Unplugged is the sole owner of the information collected on this site.  We will not sell or rent your personal data anymore. We will not share your personal data with any third-party organizations and, unless you've expressly consented, your contact information will not be made public on this website. Depending on your choices, you may receive emails regarding legislation updates, community additions, opportunities to contact your local representatives, or volunteer opportunities for community outreach events. Thank you for your support and participation and feel free to reach out to <a href="mailto:pennsylvaniaunplugged@gmail.com">pennsylvaniaunplugged@gmail.com</a> with any questions about your personal data.
+  </p>
+</div>
+
 <style>
 .filter-container {
     display: flex;
