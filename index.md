@@ -164,7 +164,7 @@ PA Unplugged is made up of a variety of grassroots, parent-led organizations acr
       <div class="filter-container">
           <div class="district-filter">
               <select id="district-filter" class="form-select" onchange="filterFamilies()">
-                  <option value="all">Show All Districts</option>
+                  <option value="all">All Districts</option>
                   <optgroup label="Allegheny County">
                       <option value="Bethel Park">Bethel Park</option>
                       <option value="Central Catholic">Central Catholic</option>
@@ -219,20 +219,20 @@ PA Unplugged is made up of a variety of grassroots, parent-led organizations acr
           </div>
           <div class="grade-filter">
               <select id="grade-filter" class="form-select" onchange="filterFamilies()">
-                  <option value="all">Show All Grades</option>
-                  <option value="grade-kindergarten">Kindergarten</option>
-                  <option value="grade-1st">1st Grade</option>
-                  <option value="grade-2nd">2nd Grade</option>
-                  <option value="grade-3rd">3rd Grade</option>
-                  <option value="grade-4th">4th Grade</option>
-                  <option value="grade-5th">5th Grade</option>
-                  <option value="grade-6th">6th Grade</option>
-                  <option value="grade-7th">7th Grade</option>
-                  <option value="grade-8th">8th Grade</option>
-                  <option value="grade-9th">9th Grade</option>
-                  <option value="grade-10th">10th Grade</option>
-                  <option value="grade-11th">11th Grade</option>
-                  <option value="grade-12th">12th Grade</option>
+                  <option value="all">All Graduation Years</option>
+                  <option value="grade-kindergarten">2025 (Kindergarten)</option>
+                  <option value="grade-1st">2026 (1st Grade)</option>
+                  <option value="grade-2nd">2027 (2nd Grade)</option>
+                  <option value="grade-3rd">2028 (3rd Grade)</option>
+                  <option value="grade-4th">2029 (4th Grade)</option>
+                  <option value="grade-5th">2030 (5th Grade)</option>
+                  <option value="grade-6th">2031 (6th Grade)</option>
+                  <option value="grade-7th">2032 (7th Grade)</option>
+                  <option value="grade-8th">2033 (8th Grade)</option>
+                  <option value="grade-9th">2034 (9th Grade)</option>
+                  <option value="grade-10th">2035 (10th Grade)</option>
+                  <option value="grade-11th">2036 (11th Grade)</option>
+                  <option value="grade-12th">2037 (12th Grade)</option>
               </select>
           </div>
       </div>
@@ -544,6 +544,7 @@ function addChild() {
     <option value="Allegheny" ${previousCounty === 'Allegheny' ? 'selected' : ''}>Allegheny County</option>
     <option value="Beaver" ${previousCounty === 'Beaver' ? 'selected' : ''}>Beaver County</option>
     <option value="Delaware" ${previousCounty === 'Delaware' ? 'selected' : ''}>Delaware County</option>
+    <option value="Montgomery" ${previousCounty === 'Montgomery' ? 'selected' : ''}>Montgomery County</option>
   `;
 
   // Create district select
@@ -660,4 +661,52 @@ function submitForm(event) {
     submitButton.innerHTML = 'Sign Up';
   });
 }
+
+function updateGradeFilter() {
+    const gradeFilter = document.getElementById("grade-filter");
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based
+
+    // If we're past August 1st, use the current year, otherwise use previous year
+    const academicYear = currentMonth >= 8 ? currentYear : currentYear - 1;
+
+    // Update each option with the correct grade
+    Array.from(gradeFilter.options).forEach(option => {
+        if (option.value === "all") return;
+
+        // Extract graduation year from the value
+        let graduationYear;
+        if (option.value === "grade-kindergarten") {
+            graduationYear = academicYear + 13; // Kindergarten is 13 years before graduation
+        } else {
+            const gradeNum = parseInt(option.value.split("-")[1].replace("th", ""));
+            graduationYear = academicYear + (12 - gradeNum + 1);
+        }
+
+        // Calculate current grade
+        const yearsUntilGraduation = graduationYear - academicYear;
+        const gradeNumber = 12 - yearsUntilGraduation + 1; // Added +1 to fix off-by-one
+
+        let gradeText;
+        if (gradeNumber < 0) {
+            gradeText = "Preschool";
+        } else if (gradeNumber === 0) {
+            gradeText = "Kindergarten";
+        } else if (gradeNumber === 1) {
+            gradeText = "1st Grade";
+        } else if (gradeNumber === 2) {
+            gradeText = "2nd Grade";
+        } else if (gradeNumber === 3) {
+            gradeText = "3rd Grade";
+        } else {
+            gradeText = `${gradeNumber}th Grade`;
+        }
+
+        option.textContent = `${graduationYear} (${gradeText})`;
+    });
+}
+
+// Call updateGradeFilter when the page loads
+document.addEventListener('DOMContentLoaded', updateGradeFilter);
 </script>
