@@ -95,10 +95,9 @@ This commitment is a tool for connection, not comparison or judgement. We believ
             <label for="county1">County</label>
             <select class="form-select county-select" id="county1" name="county[]" onchange="updateDistricts(this)" required>
               <option value="">Select County</option>
-              <option value="Allegheny">Allegheny County</option>
-              <option value="Beaver">Beaver County</option>
-              <option value="Delaware">Delaware County</option>
-              <option value="Montgomery">Montgomery County</option>
+              {% for county in site.data.districts.counties %}
+              <option value="{{ county[0] }}">{{ county[0] }} County</option>
+              {% endfor %}
             </select>
           </div>
           <div class="form-group">
@@ -165,56 +164,13 @@ PA Unplugged is made up of a variety of grassroots, parent-led organizations acr
           <div class="district-filter">
               <select id="district-filter" class="form-select" onchange="filterFamilies()">
                   <option value="all">All Districts</option>
-                  <optgroup label="Allegheny County">
-                      <option value="Bethel Park">Bethel Park</option>
-                      <option value="Central Catholic">Central Catholic</option>
-                      <option value="Eden Christian">Eden Christian</option>
-                      <option value="Faulk Laboratory">Faulk Laboratory</option>
-                      <option value="Fox Chapel">Fox Chapel</option>
-                      <option value="Keystone Oaks">Keystone Oaks</option>
-                      <option value="Montessori">Montessori</option>
-                      <option value="Mt. Lebanon">Mt. Lebanon</option>
-                      <option value="New Brighton">New Brighton</option>
-                      <option value="North Allegheny">North Allegheny</option>
-                      <option value="Oakland Catholic">Oakland Catholic</option>
-                      <option value="Pine Richland">Pine Richland</option>
-                      <option value="Pittsburgh Public">Pittsburgh Public</option>
-                      <option value="Quaker Valley">Quaker Valley</option>
-                      <option value="Saint James">Saint James</option>
-                      <option value="Seneca Valley">Seneca Valley</option>
-                      <option value="Sewickley Academy">Sewickley Academy</option>
-                      <option value="Shady Side Academy">Shady Side Academy</option>
-                      <option value="The Ellis School">The Ellis School</option>
-                      <option value="Upper Saint Clair">Upper Saint Clair</option>
-                      <option value="Watermark">Watermark</option>
+                  {% for county in site.data.districts.counties %}
+                  <optgroup label="{{ county[0] }} County">
+                      {% for district in county[1] %}
+                      <option value="{{ district }}">{{ district }}</option>
+                      {% endfor %}
                   </optgroup>
-                  <optgroup label="Beaver County">
-                      <option value="Beaver Area">Beaver Area</option>
-                      <option value="Beaver Falls">Beaver Falls</option>
-                      <option value="Blackhawk">Blackhawk</option>
-                      <option value="New Brighton">New Brighton</option>
-                  </optgroup>
-                  <optgroup label="Delaware County">
-                      <option value="Chester Upland">Chester Upland</option>
-                      <option value="Chichester">Chichester</option>
-                      <option value="Garnet Valley">Garnet Valley</option>
-                      <option value="Haverford Township">Haverford Township</option>
-                      <option value="Interboro">Interboro</option>
-                      <option value="Marple Newtown">Marple Newtown</option>
-                      <option value="Penn-Delco">Penn-Delco</option>
-                      <option value="Radnor">Radnor</option>
-                      <option value="Ridley">Ridley</option>
-                      <option value="Rose Tree Media">Rose Tree Media</option>
-                      <option value="Southeast Delco">Southeast Delco</option>
-                      <option value="Springfield">Springfield</option>
-                      <option value="Upper Darby">Upper Darby</option>
-                      <option value="Wallingford-Swarthmore">Wallingford-Swarthmore</option>
-                      <option value="William Penn">William Penn</option>
-                  </optgroup>
-                  <optgroup label="Montgomery County">
-                      <option value="Jenkintown">Jenkintown</option>
-                      <option value="Wissahickon">Wissahickon</option>
-                  </optgroup>
+                  {% endfor %}
               </select>
           </div>
           <div class="grade-filter">
@@ -448,25 +404,13 @@ function dismissToast() {
 
 // District data
 const districtsByCounty = {
-  'Allegheny': [
-    'Bethel Park', 'Central Catholic', 'Eden Christian', 'Faulk Laboratory',
-    'Fox Chapel', 'Keystone Oaks', 'Montessori', 'Mt. Lebanon', 'New Brighton',
-    'North Allegheny', 'Oakland Catholic', 'Pine Richland', 'Pittsburgh Public',
-    'Quaker Valley', 'Saint James', 'Seneca Valley', 'Sewickley Academy',
-    'Shady Side Academy', 'The Ellis School', 'Upper Saint Clair', 'Watermark'
-  ],
-  'Beaver': [
-    'Beaver Area', 'Beaver Falls', 'Blackhawk', 'New Brighton'
-  ],
-  'Delaware': [
-    'Chester Upland', 'Chichester', 'Garnet Valley', 'Haverford Township',
-    'Interboro', 'Marple Newtown', 'Penn-Delco', 'Radnor', 'Ridley',
-    'Rose Tree Media', 'Southeast Delco', 'Springfield', 'Upper Darby',
-    'Wallingford-Swarthmore', 'William Penn'
-  ],
-  'Montgomery': [
-    'Jenkintown', 'Wissahickon'
-  ]
+    {% for county in site.data.districts.counties %}
+    '{{ county[0] }}': [
+        {% for district in county[1] %}
+        '{{ district }}'{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+    ]{% unless forloop.last %},{% endunless %}
+    {% endfor %}
 };
 
 function updateDistricts(countySelect) {
@@ -541,10 +485,9 @@ function addChild() {
   // Add county options
   countySelect.innerHTML = `
     <option value="">Select County</option>
-    <option value="Allegheny" ${previousCounty === 'Allegheny' ? 'selected' : ''}>Allegheny County</option>
-    <option value="Beaver" ${previousCounty === 'Beaver' ? 'selected' : ''}>Beaver County</option>
-    <option value="Delaware" ${previousCounty === 'Delaware' ? 'selected' : ''}>Delaware County</option>
-    <option value="Montgomery" ${previousCounty === 'Montgomery' ? 'selected' : ''}>Montgomery County</option>
+    {% for county in site.data.districts.counties %}
+    <option value="{{ county[0] }}" ${previousCounty === '{{ county[0] }}' ? 'selected' : ''}>{{ county[0] }} County</option>
+    {% endfor %}
   `;
 
   // Create district select

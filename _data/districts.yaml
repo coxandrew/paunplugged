@@ -1,49 +1,52 @@
-allegheny_county:
-  - Bethel Park
-  - Central Catholic
-  - Eden Christian
-  - Faulk Laboratory
-  - Fox Chapel
-  - Keystone Oaks
-  - Montessori
-  - Mt. Lebanon
-  - New Brighton
-  - North Allegheny
-  - Oakland Catholic
-  - Pine Richland
-  - Pittsburgh Public
-  - Quaker Valley
-  - Saint James
-  - Seneca Valley
-  - Sewickley Academy
-  - Shady Side Academy
-  - The Ellis School
-  - Upper Saint Clair
-  - Watermark
-
-beaver_county:
-  - Beaver Area
-  - Beaver Falls
-  - Blackhawk
-  - New Brighton
-
-delaware_county:
-  - Chester Upland
-  - Chichester
-  - Garnet Valley
-  - Haverford Township
-  - Interboro
-  - Marple Newtown
-  - Penn-Delco
-  - Radnor
-  - Ridley
-  - Rose Tree Media
-  - Southeast Delco
-  - Springfield
-  - Upper Darby
-  - Wallingford-Swarthmore
-  - William Penn
-
-montgomery_county:
-  - Jenkintown
-  - Wissahickon
+counties:
+  Allegheny:
+    - Bethel Park
+    - Central Catholic
+    - Eden Christian
+    - Faulk Laboratory
+    - Fox Chapel
+    - Keystone Oaks
+    - Montessori
+    - Mt. Lebanon
+    - New Brighton
+    - North Allegheny
+    - Oakland Catholic
+    - Pine Richland
+    - Pittsburgh Public
+    - Quaker Valley
+    - Saint James
+    - Seneca Valley
+    - Sewickley Academy
+    - Shady Side Academy
+    - The Ellis School
+    - Upper Saint Clair
+    - Watermark
+  Beaver:
+    - Beaver Area
+    - Beaver Falls
+    - Blackhawk
+    - New Brighton
+  Bucks:
+    - Central Bucks
+  Delaware:
+    - Chester Upland
+    - Chichester
+    - Garnet Valley
+    - Haverford Township
+    - Interboro
+    - Marple Newtown
+    - Penn-Delco
+    - Radnor
+    - Ridley
+    - Rose Tree Media
+    - Southeast Delco
+    - Springfield
+    - Upper Darby
+    - Wallingford-Swarthmore
+    - William Penn
+  Montgomery:
+    - Colonial
+    - Jenkintown
+    - Lower Merion
+    - Upper Dublin
+    - Wissahickon
