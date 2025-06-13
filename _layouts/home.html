@@ -22,7 +22,7 @@ layout: default
                 <p>
                   Join us to learn more, share resources, and be part of the change!
                 </p>
-                <a class="btn btn-primary" href="#the-pa-unplugged-commitment">Sign the Commitment</a>
+                <button type="button" class="btn btn-primary" onclick="scrollToCommitmentAndShowForm()">Sign the Commitment</button>
               </div>
             </div>
             <div class="col-md-6">
@@ -43,3 +43,30 @@ layout: default
       </div>
     </div>
   </div>
+
+<script>
+function scrollToCommitmentAndShowForm() {
+  // First scroll to the commitment section
+  const commitmentSection = document.getElementById('the-pa-unplugged-commitment');
+  if (commitmentSection) {
+    commitmentSection.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  const signupForm = document.querySelector('.signup-form');
+  const commitmentButton = document.querySelector('.commitment-action');
+
+  if (signupForm) {
+    signupForm.style.display = 'block';
+  }
+  if (commitmentButton) {
+    commitmentButton.style.display = 'none';
+  }
+
+  // Scroll to the form after showing it
+  if (signupForm) {
+    setTimeout(() => {
+      commitmentSection.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  }
+}
+</script>

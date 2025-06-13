@@ -21,7 +21,7 @@ title: Home
   </div>
 </div>
 
-# The PA Unplugged Commitment
+# The PA Unplugged Commitment {#the-pa-unplugged-commitment}
 
 This commitment is a tool for connection, not comparison or judgement. We believe when families make this decision together, it becomes more sustainable and less isolating.
 
@@ -31,7 +31,11 @@ This commitment is a tool for connection, not comparison or judgement. We believ
 * As parents & guardians, we will try to model positive technology behaviors in and outside of the home.
 * As stakeholders in our community, we support free-roam childhoods and encourage screen-free experiences in our communities.
 
-<div class="signup-form">
+<div class="commitment-action">
+  <button type="button" class="btn btn-primary btn-lg" onclick="showSignupForm()">Sign the Commitment</button>
+</div>
+
+<div class="signup-form" style="display: none;">
   <form id="emailForm" onsubmit="submitForm(event)">
     <div class="form-group">
       <label for="parentName">Parent/Guardian Name(s)</label>
@@ -347,6 +351,17 @@ PA Unplugged is made up of a variety of grassroots, parent-led organizations acr
 </div>
 
 <style>
+.commitment-action {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.commitment-action .btn {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
 .filter-container {
     display: flex;
     gap: 1rem;
@@ -374,6 +389,17 @@ PA Unplugged is made up of a variety of grassroots, parent-led organizations acr
 </style>
 
 <script>
+  function showSignupForm() {
+    const signupForm = document.querySelector('.signup-form');
+    const commitmentButton = document.querySelector('.commitment-action');
+
+    signupForm.style.display = 'block';
+    commitmentButton.style.display = 'none';
+
+    // Smooth scroll to the form
+    signupForm.scrollIntoView({ behavior: 'smooth' });
+  }
+
   function filterFamilies() {
     var gradeFilter = document.getElementById("grade-filter").value;
     var districtFilter = document.getElementById("district-filter").value;
