@@ -575,16 +575,22 @@ function submitForm(event) {
 
   // Format children data
   const children = [];
-  const graduationYears = Array.isArray(data['graduationYear[]']) ? data['graduationYear[]'] : [data['graduationYear[]']];
-  const counties = Array.isArray(data['county[]']) ? data['county[]'] : [data['county[]']];
-  const districts = Array.isArray(data['district[]']) ? data['district[]'] : [data['district[]']];
 
+  // Get all form entries and filter for array fields
+  const formEntries = new FormData(event.target);
+  const graduationYears = formEntries.getAll('graduationYear[]');
+  const counties = formEntries.getAll('county[]');
+  const districts = formEntries.getAll('district[]');
+
+  // Ensure we have valid data for each child
   for (let i = 0; i < graduationYears.length; i++) {
-    children.push({
-      graduationYear: graduationYears[i],
-      county: counties[i],
-      district: districts[i]
-    });
+    if (graduationYears[i] && counties[i] && districts[i]) {
+      children.push({
+        graduationYear: graduationYears[i],
+        county: counties[i],
+        district: districts[i]
+      });
+    }
   }
 
   // Prepare data for submission
